@@ -26,16 +26,17 @@ wsServer.on('request', function (request) {
     const connection = request.accept(null, request.origin);
     clients[userID] = connection;
     console.log('connected: ' + userID + ' in ' + Object.getOwnPropertyNames(clients));
-});
 
-connection.on('message', function (message) {
-    if (message === 'utf8') {
-        console.log('Received message: ', message.utf8Data);
+    connection.on('message', function (message) {
+        if (message === 'utf8') {
+            console.log('Received message: ', message.utf8Data);
 
-        // broadcasting message to all connected clients
-        for (key in clients) {
-            clients[key].sendUTF(message.utf8Data);
-            console.log('sent Message to: ', clients[key]);
+            // broadcasting message to all connected clients
+            for (key in clients) {
+                clients[key].sendUTF(message.utf8Data);
+                console.log('sent Message to: ', clients[key]);
+            }
         }
-    }
+    });
 });
+
